@@ -26,3 +26,7 @@ embedded-offline-analysis/
 - 增加更多设备类型
 - 使用 Spark SQL / Hive 做更复杂分析
 - 结合第一项目实现实时 + 离线综合分析
+## 6. 离线分析功能
+- 使用 Pandas / Spark 对历史设备日志进行统计分析
+- 分析故障设备温度、电压特征
+- 生成箱型图可视化结果，输出在 `reports/`
