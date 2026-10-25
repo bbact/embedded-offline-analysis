@@ -1,32 +1,23 @@
-# Embedded Device Offline Analysis System
+# 嵌入式设备离线分析
 
-## 1. 项目背景
-嵌入式设备长期运行会生成大量日志。
-本项目通过离线分析这些日志，提取故障设备的共性特征，并生成健康报告。
+用历史日志比较故障设备和正常设备，生成健康报告。300 行规模用 Pandas 分析。实时告警仍由边缘到云端监测项目单独处理，这里只读本目录的 CSV。
 
-## 2. 技术栈
-- Python / Pandas：日志生成与分析
-- Spark：分布式统计计算
-- Hive / Parquet：日志存储
-- Matplotlib / Seaborn：可视化报告
+## 运行
 
-## 3. 功能说明
-- 生成设备历史运行日志
-- 统计故障设备的温度、电压等特征
-- 可视化分析结果并生成报告
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+MPLBACKEND=Agg .venv/bin/python scripts/generate_logs.py
+MPLBACKEND=Agg .venv/bin/python scripts/analyze_logs.py
+```
 
-## 4. 项目结构
-embedded-offline-analysis/
-├── data/ # 模拟日志
-├── scripts/ # 日志生成与分析脚本
-├── reports/ # 图表与报告
-└── README.md
+报告在 `reports/health_report.md`。温度图上的 80°C 虚线用来和实时监测对照，不直接当作故障。
 
-## 5. 可扩展方向
-- 增加更多设备类型
-- 使用 Spark SQL / Hive 做更复杂分析
-- 结合第一项目实现实时 + 离线综合分析
-## 6. 离线分析功能
-- 使用 Pandas / Spark 对历史设备日志进行统计分析
-- 分析故障设备温度、电压特征
-- 生成箱型图可视化结果，输出在 `reports/`
+## 目录
+
+```text
+scripts/generate_logs.py    按隐藏健康状态生成 30 天日志
+scripts/analyze_logs.py     对比故障特征并写报告
+data/device_logs.csv        生成的日志
+reports/                    健康报告和箱型图
+```
